@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utility-service
+  labels:
+    app: utility-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: utility-service
+  template:
+    metadata:
+      labels:
+        app: utility-service
+    spec:
+      containers:
+        - name: utility-service
+          image: utility-service:1.0
+          imagePullPolicy: IfNotPresent
+          command: ["java"]
+          args: ["-jar", "utility-service-0.0.1-SNAPSHOT.jar", "--spring.config.additional-location=file:/app/config/"]
+          ports:
+            - containerPort: 8081
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: host
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: dbName
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: password

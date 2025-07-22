@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  host: mysql.default.svc.cluster.local
+  dbName: aadesh_sample
