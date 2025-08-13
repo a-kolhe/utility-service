@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.working.utility_service.dto.CitiDTO;
+import com.working.utility_service.exception.UtilityException;
 import com.working.utility_service.service.AddressService;
 
 @RestController
@@ -19,7 +20,7 @@ public class AddressController {
 	private AddressService addressService;
 	
 	@GetMapping("/getCities/{searchTxt}")
-	public List<CitiDTO> getCities(@PathVariable("searchTxt") String input){
+	public List<CitiDTO> getCities(@PathVariable("searchTxt") String input) throws UtilityException{
 		
 		return addressService.getCityList(input);
 	}
